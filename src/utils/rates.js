@@ -9,7 +9,7 @@ function calculateRate(source, target) {
   item = rates.find(item => item.source == target && item.target == source);
   if (item) return 1 / item.rate;
 
-  throw "Convertion not supported";
+  return null;
 }
 
 function getCurrencies() {

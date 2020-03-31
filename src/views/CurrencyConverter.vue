@@ -68,10 +68,10 @@ export default {
   methods: {
     calculate() {
       this.error = null;
-      try {
+      if (this.rate) {
         this.targetValue = this.sourceValue * this.rate;
-      } catch (exception) {
-        this.error = exception;
+      } else {
+        this.error = "Conversion not supported";
         this.targetValue = null;
       }
     }
