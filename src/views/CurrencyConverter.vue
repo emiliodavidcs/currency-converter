@@ -4,7 +4,6 @@
     <div>
       <input @input="calculate()" v-model.number="sourceValue" type="number" />
       <select
-        @change="calculate()"
         v-model="sourceCurrency"
         name="source-currency"
         id="source-currency"
@@ -21,7 +20,6 @@
     <div>
       <input :value="targetValue" type="number" disabled />
       <select
-        @change="calculate"
         v-model="targetCurrency"
         name="target-currency"
         id="target-currency"
@@ -57,13 +55,21 @@ export default {
       currencies: currencies
     };
   },
+  computed: {
+    rate() {
+      return calculateRate(this.sourceCurrency, this.targetCurrency);
+    }
+  },
+  watch: {
+    rate() {
+      this.calculate();
+    }
+  },
   methods: {
     calculate() {
       this.error = null;
       try {
-        this.targetValue =
-          this.sourceValue *
-          calculateRate(this.sourceCurrency, this.targetCurrency);
+        this.targetValue = this.sourceValue * this.rate;
       } catch (exception) {
         this.error = exception;
         this.targetValue = null;
